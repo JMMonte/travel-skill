@@ -219,37 +219,52 @@ All transit tools require a `system` parameter — the system ID from the config
 
 **Route types:** 0 = tram, 1 = subway/metro, 2 = rail, 3 = bus, 4 = ferry, 5 = cable tram, 6 = gondola, 7 = funicular.
 
-#### Pre-configured Systems
+#### Pre-configured Cities
 
-| System ID | City | Routes | Stops | Realtime |
-|-----------|------|--------|-------|----------|
-| `barcelona-bus` | Barcelona | 132 | 4,907 | No |
-| `rome` | Rome | 429 | 8,342 | Yes (live arrivals + vehicle positions) |
+| City | System ID | Routes | Stops | Realtime |
+|------|-----------|--------|-------|----------|
+| Barcelona | `barcelona-bus` | 132 | 4,907 | No |
+| Lisbon | `lisbon-carris` | 950 | 12,717 | Yes (vehicles + alerts) |
+| London | `london-bus` | -- | -- | No |
+| New York | `nyc-subway` | -- | -- | Yes (trip updates + alerts) |
+| Rome | `rome` | 429 | 8,342 | Yes (trips + vehicles + alerts) |
+
+Route/stop counts populate on first query (GTFS data downloads automatically).
 
 #### Adding More Cities
 
-Edit `src/travel_mcp/transit/config.travel.json` to add any city that publishes GTFS feeds:
+Create a new file in `cities/<city-name>.json`:
 
 ```json
 {
-  "id": "my-city",
-  "name": "My City Transit",
-  "schedule_url": "https://example.com/gtfs.zip",
-  "realtime": {
-    "trip_updates": ["https://example.com/trip-updates.pb"],
-    "vehicle_positions": [],
-    "alerts": []
-  },
-  "auth": null
+  "city": "Tokyo",
+  "country": "JP",
+  "systems": [
+    {
+      "id": "tokyo-metro",
+      "name": "Tokyo Metro",
+      "schedule_url": "https://example.com/gtfs.zip",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": ["https://example.com/vehicles.pb"],
+        "alerts": []
+      },
+      "auth": null
+    }
+  ]
 }
 ```
 
-Find GTFS feeds at [Mobility Database](https://mobilitydatabase.org/), [Transitland](https://www.transit.land/), or [OpenMobilityData](https://transitfeeds.com/).
+All city configs are automatically merged at startup. No code changes needed — just add the JSON file and restart.
+
+Find GTFS feeds at [Mobility Database](https://mobilitydatabase.org/), [Transitland](https://www.transit.land/), or city open data portals.
 
 For feeds requiring API keys:
 ```json
 "auth": { "type": "query_param", "param_name": "api_key", "key_env": "MY_API_KEY" }
 ```
+
+See [`cities/README.md`](cities/README.md) for full documentation on contributing city configs.
 
 ---
 

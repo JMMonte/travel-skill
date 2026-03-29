@@ -1,0 +1,17 @@
+{
+  "city": "Lisbon",
+  "country": "PT",
+  "systems": [
+    {
+      "id": "lisbon-carris",
+      "name": "Lisbon Carris Metropolitana (Bus/Tram)",
+      "schedule_url": "https://api.carrismetropolitana.pt/gtfs",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": ["https://api.carrismetropolitana.pt/v2/vehicles.pb"],
+        "alerts": ["https://api.carrismetropolitana.pt/v2/alerts.pb"]
+      },
+      "auth": null
+    }
+  ]
+}
