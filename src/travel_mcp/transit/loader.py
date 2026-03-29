@@ -5,7 +5,10 @@ import os
 from pathlib import Path
 
 CITIES_DIR = Path(__file__).parent.parent.parent.parent / "cities"
-DATA_DIR = os.environ.get("TRAVEL_MCP_DATA_DIR", "/tmp/gtfs-mcp/data")
+DATA_DIR = os.environ.get(
+    "TRAVEL_MCP_DATA_DIR",
+    os.path.join(os.path.expanduser("~"), "Development", "gtfs-mcp", "data"),
+)
 SCHEDULE_REFRESH_HOURS = 168  # 1 week
 
 

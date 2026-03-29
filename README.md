@@ -395,8 +395,8 @@ Each module is mounted into the root server via `FastMCP.mount()`. Modules fail 
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `GTFS_MCP_DIR` | `/tmp/gtfs-mcp` | Path to gtfs-mcp installation |
-| `TRAVEL_MCP_DATA_DIR` | `/tmp/gtfs-mcp/data` | Where GTFS SQLite databases are cached |
+| `GTFS_MCP_DIR` | `~/Development/gtfs-mcp` | Path to gtfs-mcp installation |
+| `TRAVEL_MCP_DATA_DIR` | `~/Development/gtfs-mcp/data` | Where GTFS SQLite databases are cached |
 | `ODPT_CONSUMER_KEY` | — | Tokyo Metro/Toei realtime (free at [developer.odpt.org](https://developer.odpt.org/)) |
 | `BKK_API_KEY` | — | Budapest BKK realtime (free at [opendata.bkk.hu](https://opendata.bkk.hu)) |
 | `NTA_API_KEY` | — | Dublin NTA realtime (free at [developer.nationaltransport.ie](https://developer.nationaltransport.ie)) |

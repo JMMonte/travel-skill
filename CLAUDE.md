@@ -39,7 +39,7 @@ cities/                  # One JSON file per city — auto-merged at startup
 
 ```bash
 # Start the MCP server on STDIO
-PYTHONPATH=src python3.12 -m travel_mcp.server
+PYTHONPATH=src python3 -m travel_mcp.server
 
 # Or via the entry point (after pip install -e .)
 travel-mcp
@@ -49,7 +49,7 @@ travel-mcp
 
 ```bash
 # Verify all 15 tools load and all transit systems are configured
-PYTHONPATH=src python3.12 -c "
+PYTHONPATH=src python3 -c "
 from travel_mcp.server import app
 import asyncio, json
 async def check():
@@ -71,7 +71,7 @@ Expected: 15 tools, 44 transit systems. If transit is unavailable, run `./script
 - **fli** (`pip install flights`) — Google Flights API
 - **fastmcp** 3.1.1 — MCP server framework (transitive via fli)
 - **playwright** — headless Chromium for hotel search (`playwright install chromium`)
-- **gtfs-mcp** — Node.js subprocess at `$GTFS_MCP_DIR` (default `/tmp/gtfs-mcp/`)
+- **gtfs-mcp** — Node.js subprocess at `$GTFS_MCP_DIR` (default `~/Development/gtfs-mcp`)
 
 ## Important Patterns
 
@@ -126,7 +126,7 @@ from travel_mcp.server import app
 ### Verify City Configs
 
 ```bash
-PYTHONPATH=src python3.12 -m travel_mcp.transit.loader
+PYTHONPATH=src python3 -m travel_mcp.transit.loader
 ```
 
 Prints merged config and lists all cities with system IDs and realtime status.

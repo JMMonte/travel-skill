@@ -4,7 +4,7 @@
 
 set -e
 
-GTFS_MCP_DIR="${GTFS_MCP_DIR:-/tmp/gtfs-mcp}"
+GTFS_MCP_DIR="${GTFS_MCP_DIR:-$HOME/Development/gtfs-mcp}"
 
 echo "Setting up gtfs-mcp at $GTFS_MCP_DIR..."
 

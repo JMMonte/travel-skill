@@ -27,7 +27,7 @@ Each JSON file in this directory defines GTFS transit feeds for a city. The file
 }
 ```
 
-3. Test it: `PYTHONPATH=src python3.12 -c "from travel_mcp.transit.loader import load_config; print(load_config())"`
+3. Test it: `PYTHONPATH=src python3 -c "from travel_mcp.transit.loader import load_config; print(load_config())"`
 4. Submit a PR!
 
 ## Fields

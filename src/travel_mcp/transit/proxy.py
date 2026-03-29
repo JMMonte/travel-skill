@@ -6,7 +6,10 @@ gtfs-mcp config file at startup.
 
 import os
 
-GTFS_MCP_DIR = os.environ.get("GTFS_MCP_DIR", "/tmp/gtfs-mcp")
+GTFS_MCP_DIR = os.environ.get(
+    "GTFS_MCP_DIR",
+    os.path.join(os.path.expanduser("~"), "Development", "gtfs-mcp"),
+)
 
 
 def create_transit_proxy():
@@ -15,7 +18,7 @@ def create_transit_proxy():
     Merges all city configs from cities/*.json into a single config,
     then starts gtfs-mcp as a subprocess.
 
-    Requires gtfs-mcp to be built at GTFS_MCP_DIR (default: /tmp/gtfs-mcp).
+    Requires gtfs-mcp to be built at GTFS_MCP_DIR (default: ~/Development/gtfs-mcp).
     Run scripts/setup-gtfs.sh to install it.
     """
     script_path = os.path.join(GTFS_MCP_DIR, "dist", "index.js")
