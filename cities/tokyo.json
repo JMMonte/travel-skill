@@ -3,18 +3,44 @@
   "country": "JP",
   "systems": [
     {
-      "id": "toei",
-      "name": "Toei (bus)",
-      "schedule_url": "https://api.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+      "id": "toei-rail",
+      "name": "Tokyo Toei (Subway/Tram/Liner)",
+      "schedule_url": "https://api-public.odpt.org/api/v4/files/Toei/data/Toei-Train-GTFS.zip",
+      "realtime": {
+        "trip_updates": ["https://api-public.odpt.org/api/v4/gtfs/realtime/Toei"],
+        "vehicle_positions": ["https://api-public.odpt.org/api/v4/gtfs/realtime/Toei"],
+        "alerts": ["https://api-public.odpt.org/api/v4/gtfs/realtime/Toei"]
+      },
+      "auth": {
+        "type": "query_param",
+        "param_name": "acl:consumerKey",
+        "key_env": "ODPT_CONSUMER_KEY"
+      }
+    },
+    {
+      "id": "toei-bus",
+      "name": "Tokyo Toei Bus",
+      "schedule_url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
       "realtime": {
         "trip_updates": [],
+        "vehicle_positions": ["https://api-public.odpt.org/api/v4/gtfs/realtime/ToeiBus"],
+        "alerts": []
+      },
+      "auth": null
+    },
+    {
+      "id": "tokyo-metro",
+      "name": "Tokyo Metro (9 subway lines)",
+      "schedule_url": "https://api.odpt.org/api/v4/files/TokyoMetro/data/TokyoMetro-Train-GTFS.zip",
+      "realtime": {
+        "trip_updates": ["https://api.odpt.org/api/v4/gtfs/realtime/TokyoMetro"],
         "vehicle_positions": [],
         "alerts": []
       },
       "auth": {
         "type": "query_param",
         "param_name": "acl:consumerKey",
-        "key_env": "ODPT_API_KEY"
+        "key_env": "ODPT_CONSUMER_KEY"
       }
     }
   ]

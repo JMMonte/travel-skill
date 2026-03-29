@@ -1,0 +1,17 @@
+{
+  "city": "Singapore",
+  "country": "SG",
+  "systems": [
+    {
+      "id": "sg-transit",
+      "name": "Singapore Bus + MRT/LRT (community feed)",
+      "schedule_url": "https://cdn.rushowl.app/rushtrail-app/gtfs-feed/gtfs-feed-lta.zip",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": [],
+        "alerts": []
+      },
+      "auth": null
+    }
+  ]
+}

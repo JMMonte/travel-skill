@@ -1,0 +1,39 @@
+{
+  "city": "Kuala Lumpur",
+  "country": "MY",
+  "systems": [
+    {
+      "id": "kl-rail",
+      "name": "Kuala Lumpur Rapid Rail (LRT/MRT/Monorail)",
+      "schedule_url": "https://api.data.gov.my/gtfs-static/prasarana?category=rapid-rail-kl",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": [],
+        "alerts": []
+      },
+      "auth": null
+    },
+    {
+      "id": "kl-bus",
+      "name": "Kuala Lumpur Rapid Bus",
+      "schedule_url": "https://api.data.gov.my/gtfs-static/prasarana?category=rapid-bus-kl",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": ["https://api.data.gov.my/gtfs-realtime/vehicle-position/prasarana?category=rapid-bus-kl"],
+        "alerts": []
+      },
+      "auth": null
+    },
+    {
+      "id": "kl-ktmb",
+      "name": "Malaysia KTMB Komuter + ETS Rail",
+      "schedule_url": "https://api.data.gov.my/gtfs-static/ktmb",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": ["https://api.data.gov.my/gtfs-realtime/vehicle-position/ktmb"],
+        "alerts": []
+      },
+      "auth": null
+    }
+  ]
+}

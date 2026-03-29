@@ -1,0 +1,21 @@
+{
+  "city": "Taipei",
+  "country": "TW",
+  "systems": [
+    {
+      "id": "taipei-metro",
+      "name": "Taipei Metro MRT",
+      "schedule_url": "https://tdx.transportdata.tw/api/gtfs/V3/Map/GTFS/Static/Rail/TRTC",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": [],
+        "alerts": []
+      },
+      "auth": {
+        "type": "header",
+        "header_name": "Authorization",
+        "key_env": "TDX_ACCESS_TOKEN"
+      }
+    }
+  ]
+}
