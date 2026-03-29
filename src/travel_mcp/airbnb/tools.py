@@ -10,6 +10,7 @@ airbnb_mcp = FastMCP("airbnb")
 @airbnb_mcp.tool()
 def airbnb_search(
     location: str,
+    place_id: Optional[str] = None,
     checkin: Optional[str] = None,
     checkout: Optional[str] = None,
     adults: int = 1,
@@ -24,6 +25,7 @@ def airbnb_search(
 
     Args:
         location: Location to search (e.g., "Marrakech, Morocco", "Barcelona, Spain")
+        place_id: Google Maps Place ID for precise location (overrides location text)
         checkin: Check-in date (YYYY-MM-DD)
         checkout: Check-out date (YYYY-MM-DD)
         adults: Number of adults (default: 1)
@@ -38,6 +40,7 @@ def airbnb_search(
 
     return search_airbnb(
         location=location,
+        place_id=place_id,
         checkin=checkin,
         checkout=checkout,
         adults=adults,

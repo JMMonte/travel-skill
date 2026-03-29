@@ -136,6 +136,7 @@ LISTING_SECTION_SCHEMAS = {
 
 def search_airbnb(
     location: str,
+    place_id: Optional[str] = None,
     checkin: Optional[str] = None,
     checkout: Optional[str] = None,
     adults: int = 1,
@@ -148,6 +149,8 @@ def search_airbnb(
 ) -> dict:
     """Search Airbnb listings."""
     params: dict[str, Any] = {}
+    if place_id:
+        params["place_id"] = place_id
     if checkin:
         params["checkin"] = checkin
     if checkout:
