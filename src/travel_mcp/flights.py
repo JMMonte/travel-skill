@@ -167,6 +167,7 @@ def search_dates(
     children: int = 0,
     infants_in_seat: int = 0,
     infants_on_lap: int = 0,
+    days_of_week: Optional[list[str]] = None,
 ) -> dict[str, Any]:
     """Find the cheapest travel dates between two airports within a date range.
 
@@ -186,6 +187,7 @@ def search_dates(
         children: Number of child passengers (default: 0)
         infants_in_seat: Number of infants in seat (default: 0)
         infants_on_lap: Number of infants on lap (default: 0)
+        days_of_week: Filter departure dates to these days (e.g., ['friday', 'saturday'])
     """
     from fli.core import (
         build_date_search_segments,
@@ -236,6 +238,16 @@ def search_dates(
 
     if not dates:
         return {"dates": [], "count": 0}
+
+    # Filter by day of week if specified
+    if days_of_week:
+        day_name_to_num = {
+            "monday": 0, "tuesday": 1, "wednesday": 2, "thursday": 3,
+            "friday": 4, "saturday": 5, "sunday": 6,
+        }
+        allowed = {day_name_to_num[d.lower()] for d in days_of_week if d.lower() in day_name_to_num}
+        if allowed:
+            dates = [d for d in dates if d.date[0].weekday() in allowed]
 
     if sort_by_price:
         dates.sort(key=lambda x: x.price)
