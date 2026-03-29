@@ -1,0 +1,17 @@
+{
+  "city": "Berlin",
+  "country": "DE",
+  "systems": [
+    {
+      "id": "vbb",
+      "name": "VBB (U-Bahn/S-Bahn/tram/bus)",
+      "schedule_url": "https://www.vbb.de/vbbgtfs",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": [],
+        "alerts": []
+      },
+      "auth": null
+    }
+  ]
+}

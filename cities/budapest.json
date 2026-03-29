@@ -1,0 +1,27 @@
+{
+  "city": "Budapest",
+  "country": "HU",
+  "systems": [
+    {
+      "id": "bkk",
+      "name": "BKK (metro/tram/bus/trolleybus)",
+      "schedule_url": "https://go.bkk.hu/api/static/v1/public-gtfs/budapest_gtfs.zip",
+      "realtime": {
+        "trip_updates": [
+          "https://go.bkk.hu/api/query/v1/ws/gtfs-rt/full/TripUpdates.pb"
+        ],
+        "vehicle_positions": [
+          "https://go.bkk.hu/api/query/v1/ws/gtfs-rt/full/VehiclePositions.pb"
+        ],
+        "alerts": [
+          "https://go.bkk.hu/api/query/v1/ws/gtfs-rt/full/Alerts.pb"
+        ]
+      },
+      "auth": {
+        "type": "query_param",
+        "param_name": "key",
+        "key_env": "BKK_API_KEY"
+      }
+    }
+  ]
+}

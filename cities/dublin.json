@@ -1,0 +1,25 @@
+{
+  "city": "Dublin",
+  "country": "IE",
+  "systems": [
+    {
+      "id": "nta",
+      "name": "NTA (bus/rail/tram)",
+      "schedule_url": "https://www.transportforireland.ie/transitData/Data/GTFS_Realtime.zip",
+      "realtime": {
+        "trip_updates": [
+          "https://api.nationaltransport.ie/gtfsr/v2/TripUpdates"
+        ],
+        "vehicle_positions": [
+          "https://api.nationaltransport.ie/gtfsr/v2/Vehicles"
+        ],
+        "alerts": []
+      },
+      "auth": {
+        "type": "header",
+        "header_name": "Ocp-Apim-Subscription-Key",
+        "key_env": "NTA_API_KEY"
+      }
+    }
+  ]
+}

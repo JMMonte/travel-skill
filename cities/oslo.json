@@ -1,0 +1,23 @@
+{
+  "city": "Oslo",
+  "country": "NO",
+  "systems": [
+    {
+      "id": "entur-norway",
+      "name": "Entur (all Norway transit)",
+      "schedule_url": "https://storage.googleapis.com/marduk-production/outbound/gtfs/rb_norway-aggregated-gtfs.zip",
+      "realtime": {
+        "trip_updates": [
+          "https://api.entur.io/realtime/v1/gtfs-rt/trip-updates"
+        ],
+        "vehicle_positions": [
+          "https://api.entur.io/realtime/v1/gtfs-rt/vehicle-positions"
+        ],
+        "alerts": [
+          "https://api.entur.io/realtime/v1/gtfs-rt/service-alerts"
+        ]
+      },
+      "auth": null
+    }
+  ]
+}

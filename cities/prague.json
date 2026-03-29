@@ -1,0 +1,22 @@
+{
+  "city": "Prague",
+  "country": "CZ",
+  "systems": [
+    {
+      "id": "pid",
+      "name": "PID (metro/tram/bus)",
+      "schedule_url": "https://data.pid.cz/PID_GTFS.zip",
+      "realtime": {
+        "trip_updates": [
+          "https://api.golemio.cz/v2/vehiclepositions/gtfsrt/trip_updates.pb"
+        ],
+        "vehicle_positions": [
+          "https://api.golemio.cz/v2/vehiclepositions/gtfsrt/vehicle_positions.pb"
+        ],
+        "alerts": []
+      },
+      "auth": null,
+      "_note": "Static GTFS needs no auth. Realtime endpoints require X-Access-Token header with GOLEMIO_API_KEY."
+    }
+  ]
+}

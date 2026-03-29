@@ -1,0 +1,17 @@
+{
+  "city": "Milan",
+  "country": "IT",
+  "systems": [
+    {
+      "id": "atm-milan",
+      "name": "ATM (metro/tram/bus)",
+      "schedule_url": "https://dati.comune.milano.it/gtfs.zip",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": [],
+        "alerts": []
+      },
+      "auth": null
+    }
+  ]
+}

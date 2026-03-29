@@ -1,0 +1,21 @@
+{
+  "city": "Warsaw",
+  "country": "PL",
+  "systems": [
+    {
+      "id": "ztm-warsaw",
+      "name": "ZTM (metro/tram/bus)",
+      "schedule_url": "https://mkuran.pl/gtfs/warsaw.zip",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": [
+          "https://mkuran.pl/gtfs/warsaw/vehicles.pb"
+        ],
+        "alerts": [
+          "https://mkuran.pl/gtfs/warsaw/alerts.pb"
+        ]
+      },
+      "auth": null
+    }
+  ]
+}

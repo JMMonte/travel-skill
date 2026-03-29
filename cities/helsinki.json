@@ -1,0 +1,23 @@
+{
+  "city": "Helsinki",
+  "country": "FI",
+  "systems": [
+    {
+      "id": "hsl",
+      "name": "HSL (metro/tram/bus/ferry)",
+      "schedule_url": "https://api.digitransit.fi/routing-data/v2/hsl/HSL.zip",
+      "realtime": {
+        "trip_updates": [
+          "https://realtime.hsl.fi/realtime/trip-updates/v2/hsl"
+        ],
+        "vehicle_positions": [
+          "https://realtime.hsl.fi/realtime/vehicle-positions/v2/hsl"
+        ],
+        "alerts": [
+          "https://realtime.hsl.fi/realtime/service-alerts/v2/hsl"
+        ]
+      },
+      "auth": null
+    }
+  ]
+}

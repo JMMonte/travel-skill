@@ -1,0 +1,17 @@
+{
+  "city": "Paris",
+  "country": "FR",
+  "systems": [
+    {
+      "id": "idfm",
+      "name": "IDFM (metro/RER/tram/bus)",
+      "schedule_url": "https://eu.ftp.opendatasoft.com/stif/GTFS/IDFM-gtfs.zip",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": [],
+        "alerts": []
+      },
+      "auth": null
+    }
+  ]
+}

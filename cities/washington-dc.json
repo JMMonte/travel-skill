@@ -1,0 +1,48 @@
+{
+  "city": "Washington D.C.",
+  "country": "US",
+  "systems": [
+    {
+      "id": "wmata-bus",
+      "name": "WMATA Metrobus (bus)",
+      "schedule_url": "https://api.wmata.com/gtfs/bus-gtfs-static.zip",
+      "realtime": {
+        "trip_updates": [
+          "https://api.wmata.com/gtfs/bus-gtfsrt-tripupdates.pb"
+        ],
+        "vehicle_positions": [
+          "https://api.wmata.com/gtfs/bus-gtfsrt-vehiclepositions.pb"
+        ],
+        "alerts": [
+          "https://api.wmata.com/gtfs/bus-gtfsrt-alerts.pb"
+        ]
+      },
+      "auth": {
+        "type": "header",
+        "header_name": "api_key",
+        "key_env": "WMATA_API_KEY"
+      }
+    },
+    {
+      "id": "wmata-rail",
+      "name": "WMATA Metrorail (metro)",
+      "schedule_url": "https://api.wmata.com/gtfs/rail-gtfs-static.zip",
+      "realtime": {
+        "trip_updates": [
+          "https://api.wmata.com/gtfs/rail-gtfsrt-tripupdates.pb"
+        ],
+        "vehicle_positions": [
+          "https://api.wmata.com/gtfs/rail-gtfsrt-vehiclepositions.pb"
+        ],
+        "alerts": [
+          "https://api.wmata.com/gtfs/rail-gtfsrt-alerts.pb"
+        ]
+      },
+      "auth": {
+        "type": "header",
+        "header_name": "api_key",
+        "key_env": "WMATA_API_KEY"
+      }
+    }
+  ]
+}

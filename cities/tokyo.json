@@ -1,0 +1,21 @@
+{
+  "city": "Tokyo",
+  "country": "JP",
+  "systems": [
+    {
+      "id": "toei",
+      "name": "Toei (bus)",
+      "schedule_url": "https://api.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": [],
+        "alerts": []
+      },
+      "auth": {
+        "type": "query_param",
+        "param_name": "acl:consumerKey",
+        "key_env": "ODPT_API_KEY"
+      }
+    }
+  ]
+}

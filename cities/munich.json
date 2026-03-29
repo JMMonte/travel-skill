@@ -1,0 +1,17 @@
+{
+  "city": "Munich",
+  "country": "DE",
+  "systems": [
+    {
+      "id": "mvv",
+      "name": "MVV (U-Bahn/S-Bahn/tram/bus/regional)",
+      "schedule_url": "https://www.mvv-muenchen.de/fileadmin/mediapool/02-Fahrplanauskunft/03-Downloads/openData/gesamt_gtfs.zip",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": [],
+        "alerts": []
+      },
+      "auth": null
+    }
+  ]
+}

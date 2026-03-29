@@ -1,0 +1,17 @@
+{
+  "city": "Porto",
+  "country": "PT",
+  "systems": [
+    {
+      "id": "stcp",
+      "name": "STCP (bus/tram)",
+      "schedule_url": "https://opendata.porto.digital/dataset/5275c986-592c-43f5-8f87-aabbd4e4f3a4/resource/235b48c9-eca2-44ce-b84c-ec0c03efcc15/download/gtfs_feed.zip",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": [],
+        "alerts": []
+      },
+      "auth": null
+    }
+  ]
+}
