@@ -2,14 +2,14 @@
 
 A unified [MCP](https://modelcontextprotocol.io/) server that combines **flights**, **hotels**, **Airbnb**, and **public transit** into a single interface. Built for AI assistants (Claude Desktop, Claude Code, Cursor, etc.) to plan trips end-to-end.
 
-**15 tools. One server. Four data sources.**
+**15 tools. One server. Four data sources. 37 cities.**
 
 | Module | Source | Tools | Data |
 |--------|--------|-------|------|
 | Flights | [fli](https://github.com/punitarani/fli) (Google Flights API) | `search_flights`, `search_dates` | Real-time prices, all airlines |
 | Hotels | [fast-hotels](https://github.com/jongan69/hotels) (Google Hotels) | `search_hotels` | Prices, ratings, amenities |
 | Airbnb | Pure Python port of [openbnb MCP](https://github.com/openbnb-org/mcp-server-airbnb) | `airbnb_search`, `airbnb_listing_details` | Listings, prices, reviews, amenities |
-| Transit | [gtfs-mcp](https://github.com/jdamcd/gtfs-mcp) (GTFS feeds) | 10 tools (see below) | Schedules, live arrivals, routes |
+| Transit | [gtfs-mcp](https://github.com/jdamcd/gtfs-mcp) (GTFS feeds) | 10 tools (see below) | Schedules, live arrivals, 44 systems |
 
 ---
 
@@ -108,7 +108,15 @@ Search for flights between two airports on a specific date.
 | `cabin_class` | string | No | `ECONOMY` (default), `PREMIUM_ECONOMY`, `BUSINESS`, `FIRST` |
 | `max_stops` | string | No | `ANY` (default), `NON_STOP`, `ONE_STOP`, `TWO_PLUS_STOPS` |
 | `sort_by` | string | No | `CHEAPEST` (default), `DURATION`, `DEPARTURE_TIME`, `ARRIVAL_TIME` |
-| `passengers` | int | No | Number of adult passengers (default: 1) |
+| `adults` | int | No | Adult passengers (default: 1) |
+| `children` | int | No | Child passengers (default: 0) |
+| `infants_in_seat` | int | No | Infants in seat (default: 0) |
+| `infants_on_lap` | int | No | Infants on lap (default: 0) |
+| `max_price` | int | No | Maximum price in USD |
+| `max_duration` | int | No | Maximum total flight duration in minutes |
+| `layover_airports` | list[str] | No | Restrict layovers to these airports |
+| `max_layover_duration` | int | No | Maximum layover duration in minutes |
+| `top_n` | int | No | Round-trip search depth (default: 5) |
 
 **Returns:** List of flights with price, duration, stops, and per-leg details (airline, flight number, airports, times).
 
@@ -124,10 +132,16 @@ Find the cheapest travel dates within a date range.
 | `end_date` | string | Yes | End of date range (`YYYY-MM-DD`) |
 | `trip_duration` | int | No | Trip length in days (default: 3) |
 | `is_round_trip` | bool | No | Round-trip search (default: false) |
+| `airlines` | list[str] | No | Filter by airline IATA codes |
 | `cabin_class` | string | No | Cabin class (default: `ECONOMY`) |
 | `max_stops` | string | No | Max stops (default: `ANY`) |
+| `departure_window` | string | No | Time window in `HH-HH` format |
 | `sort_by_price` | bool | No | Sort by price lowest-first (default: true) |
-| `passengers` | int | No | Adult passengers (default: 1) |
+| `adults` | int | No | Adult passengers (default: 1) |
+| `children` | int | No | Child passengers (default: 0) |
+| `infants_in_seat` | int | No | Infants in seat (default: 0) |
+| `infants_on_lap` | int | No | Infants on lap (default: 0) |
+| `days_of_week` | list[str] | No | Filter by departure day (e.g., `["friday", "saturday"]`) |
 
 **Returns:** List of dates with prices, sorted by cheapest.
 
@@ -166,6 +180,7 @@ Search for Airbnb listings with filters and pagination.
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `location` | string | Yes | Location (e.g., `Marrakech, Morocco`) |
+| `place_id` | string | No | Google Maps Place ID for precise location targeting |
 | `checkin` | string | No | Check-in date (`YYYY-MM-DD`) |
 | `checkout` | string | No | Check-out date (`YYYY-MM-DD`) |
 | `adults` | int | No | Number of adults (default: 1) |
@@ -200,13 +215,13 @@ Get full details about a specific Airbnb listing.
 
 ### Transit
 
-Transit tools query GTFS public transport data via the [gtfs-mcp](https://github.com/jdamcd/gtfs-mcp) proxy. Pre-configured with Barcelona Bus and Rome ATAC.
+Transit tools query GTFS public transport data via the [gtfs-mcp](https://github.com/jdamcd/gtfs-mcp) proxy. Pre-configured with **37 cities and 44 transit systems** across Europe, Asia, and the Americas.
 
-All transit tools require a `system` parameter — the system ID from the config (e.g., `barcelona-bus`, `rome`).
+All transit tools require a `system` parameter — the system ID from the config (e.g., `lisbon-carris`, `rome`, `tokyo-metro`).
 
 | Tool | Description | Key Parameters |
 |------|-------------|----------------|
-| `list_systems` | List configured transit systems | — |
+| `list_systems` | List all 44 configured transit systems | — |
 | `search_stops` | Find stops by name | `system`, `query`, `limit?` |
 | `get_stop` | Stop details + routes serving it | `system`, `stop_id` |
 | `get_arrivals` | Upcoming arrivals (realtime when available) | `system`, `stop_id`, `route_id?`, `limit?` |
@@ -219,17 +234,75 @@ All transit tools require a `system` parameter — the system ID from the config
 
 **Route types:** 0 = tram, 1 = subway/metro, 2 = rail, 3 = bus, 4 = ferry, 5 = cable tram, 6 = gondola, 7 = funicular.
 
-#### Pre-configured Cities
+#### City Coverage
 
-| City | System ID | Routes | Stops | Realtime |
-|------|-----------|--------|-------|----------|
-| Barcelona | `barcelona-bus` | 132 | 4,907 | No |
-| Lisbon | `lisbon-carris` | 950 | 12,717 | Yes (vehicles + alerts) |
-| London | `london-bus` | -- | -- | No |
-| New York | `nyc-subway` | -- | -- | Yes (trip updates + alerts) |
-| Rome | `rome` | 429 | 8,342 | Yes (trips + vehicles + alerts) |
+<details>
+<summary><strong>Europe — 21 cities, 21 systems</strong></summary>
 
-Route/stop counts populate on first query (GTFS data downloads automatically).
+| City | System ID | Modes | Realtime | Auth |
+|------|-----------|-------|----------|------|
+| Amsterdam | `ovapi-netherlands` | All Dutch transit (bus/tram/metro/train) | No | None |
+| Barcelona | `barcelona-bus` | Metropolitan bus | No | None |
+| Berlin | `vbb` | U-Bahn, S-Bahn, tram, bus | No | None |
+| Brussels | `stib-mivb` | Metro, tram, bus | No | None |
+| Budapest | `bkk` | Metro, tram, trolleybus, bus | Yes | API key |
+| Copenhagen | `rejseplanen` | All Denmark transit | No | None |
+| Dublin | `nta` | Bus, Luas, rail (all Ireland) | Yes | API key |
+| Helsinki | `hsl` | Metro, tram, bus, rail, ferry | Yes | None |
+| Israel | `israel-transit` | Nationwide bus, rail, light rail | No | None |
+| Lisbon | `lisbon-carris` | Carris Metropolitana bus/tram | Yes | None |
+| London | `london-bus` | All London buses (TfL/BODS) | No | None |
+| Madrid | `crtm-metro` | Metro de Madrid | No | None |
+| Milan | `atm-milan` | Metro, tram, bus | No | None |
+| Munich | `mvv` | U-Bahn, S-Bahn, tram, bus, regional | No | None |
+| Oslo | `entur-norway` | All Norway transit (60 operators) | Yes | None |
+| Paris | `idfm` | Metro, RER, tram, bus (all Ile-de-France) | No | None |
+| Porto | `stcp` | Bus, tram | No | None |
+| Prague | `pid` | Metro, tram, bus, funicular, ferry | Yes | API key (RT only) |
+| Rome | `rome` | Metro, bus, tram | Yes | None |
+| Vienna | `wiener-linien` | U-Bahn, tram, bus | No | None |
+| Warsaw | `ztm-warsaw` | Metro, tram, bus | Yes | None |
+
+</details>
+
+<details>
+<summary><strong>Asia — 9 cities, 13 systems</strong></summary>
+
+| City | System ID | Modes | Realtime | Auth |
+|------|-----------|-------|----------|------|
+| Dubai | `dubai-rta` | Metro, tram, bus | No | None |
+| Hong Kong | `hk-transport` | MTR, bus, tram, ferry | No | None |
+| Jakarta | `transjakarta` | BRT, feeder routes | No | None |
+| Kochi | `kochi-metro` | Metro (single line) | No | None |
+| Kuala Lumpur | `kl-rail` | LRT, MRT, Monorail | No | None |
+| | `kl-bus` | Rapid Bus | Yes | None |
+| | `kl-ktmb` | KTMB Komuter + ETS rail | Yes | None |
+| Manila | `manila-transit` | LRT, MRT, PNR, bus | No | None |
+| Singapore | `sg-transit` | Bus + MRT/LRT (community) | No | None |
+| Taipei | `taipei-metro` | Metro MRT | No | API key |
+| Tokyo | `toei-rail` | Toei Subway, tram, Liner | Yes | API key |
+| | `toei-bus` | Toei municipal buses | Yes | None (static) |
+| | `tokyo-metro` | 9 subway lines | Yes | API key |
+
+</details>
+
+<details>
+<summary><strong>Americas — 7 cities, 10 systems</strong></summary>
+
+| City | System ID | Modes | Realtime | Auth |
+|------|-----------|-------|----------|------|
+| Chicago | `cta` | L train, bus | No | None |
+| Los Angeles | `la-metro-bus` | Metro bus | No | None |
+| | `la-metro-rail` | Metro rail | No | None |
+| Mexico City | `cdmx-semovi` | Metro, Metrobus, tram, bus, cable | No | None |
+| New York | `nyc-subway` | Subway (MTA) | Yes | None |
+| San Francisco | `bart` | BART rapid transit | No | None |
+| | `muni` | Muni bus, light rail, cable car | No | None |
+| Toronto | `ttc` | Subway, bus, streetcar | Yes | None |
+| Washington DC | `wmata-bus` | Metrobus | Yes | API key |
+| | `wmata-rail` | Metrorail | Yes | API key |
+
+</details>
 
 #### Adding More Cities
 
@@ -237,12 +310,12 @@ Create a new file in `cities/<city-name>.json`:
 
 ```json
 {
-  "city": "Tokyo",
-  "country": "JP",
+  "city": "City Name",
+  "country": "XX",
   "systems": [
     {
-      "id": "tokyo-metro",
-      "name": "Tokyo Metro",
+      "id": "city-system",
+      "name": "System Name (modes)",
       "schedule_url": "https://example.com/gtfs.zip",
       "realtime": {
         "trip_updates": [],
@@ -255,7 +328,7 @@ Create a new file in `cities/<city-name>.json`:
 }
 ```
 
-All city configs are automatically merged at startup. No code changes needed — just add the JSON file and restart.
+All city configs are automatically merged at startup. **No code changes needed** — just add the JSON file and restart.
 
 Find GTFS feeds at [Mobility Database](https://mobilitydatabase.org/), [Transitland](https://www.transit.land/), or city open data portals.
 
@@ -264,7 +337,7 @@ For feeds requiring API keys:
 "auth": { "type": "query_param", "param_name": "api_key", "key_env": "MY_API_KEY" }
 ```
 
-See [`cities/README.md`](cities/README.md) for full documentation on contributing city configs.
+See [`cities/README.md`](cities/README.md) for full contribution guide.
 
 ---
 
@@ -276,6 +349,7 @@ travel-mcp (FastMCP server)
 ├── hotels_mcp       ← vendored + patched fast-hotels (Playwright)
 ├── airbnb_mcp       ← pure Python port (requests + HTML parsing)
 └── transit_proxy     ← FastMCP proxy → gtfs-mcp Node.js subprocess
+                       ↑ auto-merges cities/*.json at startup
 ```
 
 Each module is mounted into the root server via `FastMCP.mount()`. Modules fail gracefully — if a dependency is missing, the other modules still work.
@@ -292,7 +366,7 @@ Each module is mounted into the root server via `FastMCP.mount()`. Modules fail 
 1. **Flights:** Wraps fli's Python API directly instead of mounting fli's MCP server (which uses an incompatible FastMCP subclass).
 2. **Hotels:** Vendored with patches applied (upstream fast-hotels v0.2.1 has bugs: missing location in URL, CSS selector crash, USD-only price parsing).
 3. **Airbnb:** Ported from Node.js to pure Python — eliminates the Node.js dependency for this module. Same logic: fetch HTML, parse embedded JSON.
-4. **Transit:** Proxied via `FastMCP.create_proxy()` + `NodeStdioTransport` — gtfs-mcp is complex (SQLite + protobuf) and better left as-is.
+4. **Transit:** Proxied via `fastmcp.server.create_proxy()` + `NodeStdioTransport` — gtfs-mcp is complex (SQLite + protobuf) and better left as-is. City configs in `cities/` are auto-merged into a single gtfs-mcp config at startup.
 
 ---
 
@@ -322,6 +396,15 @@ Each module is mounted into the root server via `FastMCP.mount()`. Modules fail 
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `GTFS_MCP_DIR` | `/tmp/gtfs-mcp` | Path to gtfs-mcp installation |
+| `TRAVEL_MCP_DATA_DIR` | `/tmp/gtfs-mcp/data` | Where GTFS SQLite databases are cached |
+| `ODPT_CONSUMER_KEY` | — | Tokyo Metro/Toei realtime (free at [developer.odpt.org](https://developer.odpt.org/)) |
+| `BKK_API_KEY` | — | Budapest BKK realtime (free at [opendata.bkk.hu](https://opendata.bkk.hu)) |
+| `NTA_API_KEY` | — | Dublin NTA realtime (free at [developer.nationaltransport.ie](https://developer.nationaltransport.ie)) |
+| `WMATA_API_KEY` | — | Washington DC WMATA (free at [developer.wmata.com](https://developer.wmata.com)) |
+| `TDX_ACCESS_TOKEN` | — | Taipei MRT (free at [tdx.transportdata.tw](https://tdx.transportdata.tw)) |
+| `GOLEMIO_API_KEY` | — | Prague realtime (free at [api.golemio.cz](https://api.golemio.cz)) |
+
+API keys are only needed for realtime data in those specific cities. Static schedules work without any keys.
 
 ---
 
@@ -330,11 +413,11 @@ Each module is mounted into the root server via `FastMCP.mount()`. Modules fail 
 - **Hotels** search takes 5-15 seconds (Playwright browser launch).
 - **Airbnb** HTML parsing may break if Airbnb changes their page structure.
 - **Transit** requires Node.js and a separate gtfs-mcp installation.
-- **Hotels** prices may be in local currency (EUR, MAD, etc.) depending on Google's geo-detection.
+- **Hotels** prices may be in local currency depending on Google's geo-detection.
 - **Airbnb** prices are totals for the stay, not per-night.
-- **Transit** GTFS data downloads on first use (~50MB for Rome). Cached in SQLite.
-- No Marrakech transit data (no GTFS feed exists).
-- Barcelona TMB metro GTFS requires an API key (only bus is pre-configured).
+- **Transit** GTFS data downloads on first use per city (5-90MB). Cached in SQLite.
+- Some cities not available: Seoul, Bangkok, Osaka, Beijing/Shanghai, HCMC (no GTFS published).
+- Some feeds may require free API keys for realtime data (see Environment Variables above).
 
 ---
 
