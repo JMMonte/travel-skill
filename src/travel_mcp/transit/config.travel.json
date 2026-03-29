@@ -1,0 +1,28 @@
+{
+  "systems": [
+    {
+      "id": "barcelona-bus",
+      "name": "Barcelona Metropolitan Bus (AMB)",
+      "schedule_url": "https://www.ambmobilitat.cat/OpenData/google_transit.zip",
+      "realtime": {
+        "trip_updates": [],
+        "vehicle_positions": [],
+        "alerts": []
+      },
+      "auth": null
+    },
+    {
+      "id": "rome",
+      "name": "Rome ATAC (Metro/Bus/Tram)",
+      "schedule_url": "https://romamobilita.it/sites/default/files/rome_static_gtfs.zip",
+      "realtime": {
+        "trip_updates": ["https://romamobilita.it/sites/default/files/rome_rtgtfs_trip_updates_feed.pb"],
+        "vehicle_positions": ["https://romamobilita.it/sites/default/files/rome_rtgtfs_vehicle_positions_feed.pb"],
+        "alerts": ["https://romamobilita.it/sites/default/files/rome_rtgtfs_alerts_feed.pb"]
+      },
+      "auth": null
+    }
+  ],
+  "data_dir": "/tmp/gtfs-mcp/data",
+  "schedule_refresh_hours": 168
+}
